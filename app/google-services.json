@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209598350860",
+    "project_id": "alarmapp-a780e",
+    "storage_bucket": "alarmapp-a780e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209598350860:android:50d32c7a549b604ed8d029",
+        "android_client_info": {
+          "package_name": "com.example.alarmapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoiHrBtvE3IJTM3ZwLbTkDHDRlcli0BmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
