@@ -34,10 +34,22 @@ class MainActivity : ComponentActivity() {
                 var alarmMinute by remember { mutableStateOf("00") }
                 var alarmSet by remember { mutableStateOf(false) }
                 var challengeType by remember { mutableStateOf("math") }
-                //WHEN USER ISNT LOGGED IN
+
+                //update the viewmodel when a different person signs in
+                LaunchedEffect(loggedIn) {
+                    if (loggedIn) {
+                        alarmViewModel.setCurrentUser(AuthManager.currentUser?.uid ?: "")
+                    } else {
+                        alarmViewModel.setCurrentUser("")
+                    }
+                }
+
                 if (!loggedIn) {
-                    LoginScreen(onLoginSuccess = { loggedIn = true })
+                    LoginScreen(onLoginSuccess = {
+                        loggedIn = true
+                    })
                 } else {
+
                     LaunchedEffect(Unit) {
                         while (true) {
                             delay(1000)
@@ -52,7 +64,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-
+                    //LIST OF ALARMS SCREEN
                     when (currentScreen) {
                         "main" -> {
                             val alarmList by alarmViewModel.alarms.observeAsState(initial = emptyList())
@@ -69,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-
+                        //SELECTING TIME SCREENn
                         "setup" -> AlarmSetupScreen(
                             hour = alarmHour,
                             minute = alarmMinute,
@@ -83,7 +95,8 @@ class MainActivity : ComponentActivity() {
                                     id = UUID.randomUUID().toString(),
                                     hour = alarmHour,
                                     minute = alarmMinute,
-                                    challengeType = challengeType
+                                    challengeType = challengeType,
+                                    userId = AuthManager.currentUser?.uid ?: ""
                                 )
                                 alarmViewModel.addAlarm(alarm)
                                 Log.d("AlarmDebug", "Adding alarm: $alarm")
@@ -91,14 +104,18 @@ class MainActivity : ComponentActivity() {
                                 currentScreen = "main"
                             }
                         )
-
+                        //MATH PROBLEM SCREEN
                         "math" -> MathChallengeScreen(
-                            onSolved = { currentScreen = "main" }
+                            onSolved = {
+                                currentScreen = "main"
+                            }
                         )
-
+                        //QR SCAN screen
                         "qr" -> QrChallengeScreen(
                             expectedCode = "alarm-qr-auth-1234",
-                            onSolved = { currentScreen = "main" }
+                            onSolved = {
+                                currentScreen = "main"
+                            }
                         )
                     }
                 }

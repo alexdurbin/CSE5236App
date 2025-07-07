@@ -5,6 +5,7 @@ data class Alarm(
     val id: String = "",
     val hour: String = "",
     val minute: String = "",
-    val challengeType: String = ""
+    val challengeType: String = "",
+    val userId: String = ""
 )
 
